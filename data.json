@@ -1,0 +1,76 @@
+customer = {
+    name : "customer name",
+    email : "customer@gmail.com",
+    phone : "07752998702",
+    fax : "07752998702",
+    website : "http:\\www.google.fr",
+    address : [
+        {
+            address_type : "shipping",
+            address_line_1 : "Batiment A, Main residence",
+            address_line_2 : "17 rue Edouard Maury",
+            zipcode : "94120",
+            city : "London",
+            country : "UK"
+        },
+        {
+            address_type : "shipping",
+            address_line_1 : "Batiment A, Main residence",
+            address_line_2 : "17 rue Edouard Maury",
+            zipcode : "94120",
+            city : "London",
+            country : "UK"
+        }
+    ],
+    contact : [
+        {
+            first_name : "Florence",
+            last_name : "Blandin",
+            occupation : "CEO",
+            phone : "07752998702",
+            email : "florenceblandin@gmail.com"
+        },
+        {
+            first_name : "Florence",
+            last_name : "Blandin",
+            occupation : "CEO",
+            phone : "07752998702",
+            email : "florenceblandin@gmail.com"
+        }
+    ]
+}
+
+product = {
+    reference : "A001",
+    name : "Cuillere de presentation",
+    description : "petite cuillere de presentation modele gris clair par 50"
+    prix_achat : 100,
+    supplier_id : 12200045
+    prix_vente : 140,
+    tax: 0.15
+}
+
+facture = {
+    customer : {
+        ...
+    }
+    products : [
+        {
+            reference : "A001",
+            name : "Cuillere de presentation",
+            description : "petite cuillere de presentation modele gris clair par 50"
+            prix_achat : 100,
+            supplier_id : 12200045
+            prix_vente_ht : 140,
+            tax: 0.15,
+            remise_avant_tax : 0.1,
+            prix_vente_ttc : 165
+        },
+        {
+            ...
+        }
+    ]
+    total_exc_tax : 299.99,
+    total_tax : 344.33,
+    total_inc_tax : 234324
+}

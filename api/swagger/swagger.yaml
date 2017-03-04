@@ -1,0 +1,247 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World App
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+
+#################################################
+############ Customer controller #################
+#################################################
+
+  /customers:
+    x-swagger-router-controller: customer_controller
+    get:
+      description: Get list of all customers
+      operationId: get_customers
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+  /customer/{id}:
+    x-swagger-router-controller: customer_controller
+    get:
+      description: Get one customer information based on its id
+      parameters:
+        - name: id
+          type: string
+          in: path
+          required: true
+      operationId: get_customer
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+    put:
+      description: modify existing customer
+      operationId: update_customer
+      parameters:
+        - name: customer
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/customer"
+        - name: id
+          in: path
+          type: string
+          required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+  /customer:
+    x-swagger-router-controller: customer_controller
+    post:
+      description: Create new customer
+      operationId: create_customer
+      parameters:
+        - name: customer
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/customer"
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+
+#################################################
+############ Product controller #################
+#################################################
+
+  /products:
+    x-swagger-router-controller: supplier_product_controller
+    get:
+      description: get all products
+      operationId: get_products
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+  /product:
+    x-swagger-router-controller: supplier_product_controller
+    post:
+      description: Create new product
+      operationId: create_product
+      parameters:
+        - name: product
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/supplier_product"
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+  /product/{id}:
+    x-swagger-router-controller: supplier_product_controller
+    get:
+      description: get one product based on its id
+      parameters:
+        - name: id
+          type: string
+          in: path
+          required: true
+      operationId: get_product
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+
+#################################################
+############ Command controller #################
+#################################################
+
+  /commands:
+    x-swagger-router-controller: command_controller
+    get:
+      description: Get all documents
+      operationId: get_commands
+      parameters:
+        - name: type
+          type: string
+          in: query
+          required: false
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+  /command:
+    x-swagger-router-controller: command_controller
+    post:
+      description: Create a new command
+      operationId: create_command
+      parameters:
+        - name: command
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/command"
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+  /command/{id}:
+    x-swagger-router-controller: command_controller
+    get:
+      description: Get one document based on id
+      operationId: get_command
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+  /command/{id}/add_products:
+    x-swagger-router-controller: command_controller
+    post:
+      description: Add products to a document
+      operationId: add_products
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: products
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/product"
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          
+  /swagger:
+    x-swagger-pipe: swagger_raw
+definitions:
+  customer:
+    description: "customer object definition"
+    properties:
+      name:
+        type: string
+        description: customer name
+      email:
+        type: string
+        description: customer email
+  supplier_product:
+    description: "Product object definition"
+    properties:
+      name:
+        type: string
+        description: product name
+  product:
+    description: "Product object definition"
+    properties:
+      name:
+        type: string
+        description: product name
+      selling_price_excl_tax:
+        type: number
+        description: Selling price excluding tax
+      tax:
+        type: number
+        description: tax for the product
+      quantity:
+        type: number
+        description: quantity of product for order
+  command:
+    description: "command object definition"
+    properties:
+      type:
+        type: string
+        description: document type (estimate, command, invoice, delivery)
+      customer:
+        type: string
+        description: id of the customer or supplier for the document
+    
